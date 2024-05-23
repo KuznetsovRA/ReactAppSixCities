@@ -1,4 +1,5 @@
 import CardCity from "../card-city/card-city";
+import {log} from 'util';
 
 type WelcomeScreenProps = {
   countPlace: number;
@@ -114,11 +115,9 @@ return (
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <CardCity/>
-                <CardCity/>
-                <CardCity/>
-                <CardCity/>
-                <CardCity/>
+                {new Array(countPlace).fill('', 0, countPlace).map((item, i) => {
+                  return <CardCity key={i}/>
+                })}
               </div>
             </section>
             <div className="cities__right-section">

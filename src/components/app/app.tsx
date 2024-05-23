@@ -1,12 +1,12 @@
-import Main from '../main/main';
+import {Routes, BrowserRouter} from 'react-router-dom';
+import {AppRouter} from '../providers/app-router';
 
-type AppScreenProps = {
-  countPlace: number;
-}
-
-function App({countPlace}: AppScreenProps): JSX.Element {
+function App(): JSX.Element {
   return (
-    <Main countPlace={countPlace}/>
+    <BrowserRouter>
+      <AppRouter/>
+    </BrowserRouter>
+
   )
 }
 
