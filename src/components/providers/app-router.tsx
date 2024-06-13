@@ -1,8 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppRouteProps, RouteConfig} from '../../service/config/route-config';
 import { RequiredAuth } from './required-auth';
+import {Offers} from '../../types/offers';
 
-export const AppRouter = () => {
+type AppRouterProps = {
+  offers: Offers;
+}
+
+export const AppRouter = ({offers}: AppRouterProps) => {
   return (
     <Routes>
       {Object.values(RouteConfig).map((route:AppRouteProps) => (

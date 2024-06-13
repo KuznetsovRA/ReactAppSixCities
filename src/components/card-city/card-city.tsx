@@ -1,24 +1,49 @@
-function CardCity(): JSX.Element {
+import {Offer} from '../../types/offers';
+import {ratingToWidth} from '../../service/utils';
+import {useNavigate, NavLink} from 'react-router-dom';
+
+
+type CardCityType = {
+  item: Offer;
+  onPointerOverCard: (item: Offer) => void
+  onPointerLeaveCard: () => void
+}
+
+
+function CardCity({item, onPointerOverCard, onPointerLeaveCard}:CardCityType): JSX.Element {
+
+  const {placeName, price, favorite, rating, type, premium, src} = item;
+
+
+  const handlePointerOver = () => {
+    onPointerOverCard(item);
+  }
+  const handlePointerLeave = () => {
+    onPointerLeaveCard();
+  }
+
   return (
-    <article className="cities__place-card place-card">
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
+    <article className="cities__place-card place-card"  onPointerOver={handlePointerOver} onPointerLeave={handlePointerLeave}>
+      {premium && (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      )}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <NavLink to={`/offer/${item.id}`}  >
           <img
             className="place-card__image"
-            src="img/apartment-01.jpg"
+            src={src}
             width={260}
             height={200}
             alt="Place image"
           />
-        </a>
+        </NavLink>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">€120</b>
+            <b className="place-card__price-value">€{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button
@@ -37,16 +62,16 @@ function CardCity(): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: "80%" }} />
+            <span style={{ width: ratingToWidth(rating) }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">
-            Beautiful &amp; luxurious apartment at great location
-          </a>
+          <NavLink to={`/offer/${item.id}`} >
+            {placeName}
+          </NavLink>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   )

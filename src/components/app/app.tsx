@@ -1,10 +1,15 @@
 import {Routes, BrowserRouter} from 'react-router-dom';
 import {AppRouter} from '../providers/app-router';
+import {Offers} from '../../types/offers';
 
-function App(): JSX.Element {
+type AppScreenProps = {
+  offers: Offers;
+}
+
+function App({offers}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
-      <AppRouter/>
+      <AppRouter offers={offers}/>
     </BrowserRouter>
 
   )
