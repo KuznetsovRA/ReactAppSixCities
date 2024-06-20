@@ -1,16 +1,17 @@
 import {Offer} from '../../types/offers';
 import {ratingToWidth} from '../../service/utils';
-import {useNavigate, NavLink} from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 
 
 type CardCityType = {
   item: Offer;
-  onPointerOverCard: (item: Offer) => void
+  cardClassName: string;
+  onPointerOverCard: (offer: Offer) => void
   onPointerLeaveCard: () => void
 }
 
 
-function CardCity({item, onPointerOverCard, onPointerLeaveCard}:CardCityType): JSX.Element {
+function CardCity({item, cardClassName, onPointerOverCard, onPointerLeaveCard}:CardCityType): JSX.Element {
 
   const {placeName, price, favorite, rating, type, premium, src} = item;
 
@@ -22,14 +23,17 @@ function CardCity({item, onPointerOverCard, onPointerLeaveCard}:CardCityType): J
     onPointerLeaveCard();
   }
 
+
   return (
-    <article className="cities__place-card place-card"  onPointerOver={handlePointerOver} onPointerLeave={handlePointerLeave}>
+    <article className={`${cardClassName} place-card`}
+             onPointerOver={handlePointerOver}
+             onPointerLeave={handlePointerLeave}>
       {premium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       )}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${cardClassName} place-card__image-wrapper`}>
         <NavLink to={`/offer/${item.id}`}  >
           <img
             className="place-card__image"

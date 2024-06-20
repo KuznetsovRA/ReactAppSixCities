@@ -1,25 +1,18 @@
 import CardCity from '../card-city/card-city';
 import {Offer, Offers} from '../../types/offers';
-import {useCallback, useState} from 'react';
 
 type CardCityListType = {
   offers: Offers;
+  cardClassName: string;
+  onPointerOverCard: (offer: Offer) => void;
+  onPointerLeaveCard: () => void;
 }
 
-
-export function CardCityList ({offers}:CardCityListType):JSX.Element {
-
-  const [, setActiveCard] = useState<null | Offer>(null)
-  const handlePointerOver = useCallback((offer: Offer) => {
-    setActiveCard(offer);
-  }, [])
-  const handlePointerLeave = useCallback(() => {
-    setActiveCard(null);
-  }, [])
+export function CardCityList ({offers, cardClassName, onPointerOverCard,  onPointerLeaveCard}:CardCityListType):JSX.Element {
   return (
     <>
       {offers.map((item:Offer, i:number) => {
-        return <CardCity key={item.id} item={item} onPointerOverCard={handlePointerOver} onPointerLeaveCard={handlePointerLeave}/>
+        return <CardCity key={item.id} cardClassName={cardClassName} item={item} onPointerOverCard={onPointerOverCard} onPointerLeaveCard={onPointerLeaveCard}/>
       })}
     </>
   )

@@ -7,21 +7,26 @@ type Host = {
 }
 type TypePlace = `Apartment` | `Room` | `House` | `Hotel`;
 
-type Review = {
+export interface Review {
   name: string;
   avatar: string
   rating: Rating;
   date: Date;
   description: string;
+}
 
+export type Reviews = Review[];
+
+export type Сoordinates = {
+  latitude: number;
+  longitude: number;
 };
-
-type Reviews = Review[];
 
 
 export interface Offer {
   id: number | string;
   src: string;
+  coordinates: Сoordinates;
   price: number;
   premium: boolean;
   favorite: boolean;

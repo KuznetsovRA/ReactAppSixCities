@@ -1,13 +1,23 @@
 import CardCity from "../card-city/card-city";
-import {Offers} from '../../types/offers';
+import {Offer, Offers} from '../../types/offers';
 import {CardCityList} from '../card-city-list/card-city-list';
-
+import Map from '../map/map';
+import {useCallback, useState} from 'react';
+import CITY from '../../mocks/city';
 type WelcomeScreenProps = {
   offers: Offers;
 }
 
 
 function Main({offers}: WelcomeScreenProps): JSX.Element {
+  const [activeOffer, setActiveOffer] = useState<null |  Offer>(null);
+
+  const handlePointerOver = useCallback((offer: Offer) => {
+    setActiveOffer(offer);
+  }, [])
+  const handlePointerLeave = useCallback(() => {
+    setActiveOffer(null);
+  }, [])
 
   return (
     <div className="page page--gray page--main">
@@ -118,11 +128,14 @@ function Main({offers}: WelcomeScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <CardCityList offers={offers}/>
+                <CardCityList offers={offers} cardClassName={`cities__place`} onPointerOverCard={handlePointerOver} onPointerLeaveCard={handlePointerLeave}/>
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <section className="cities__map map" >
+                <Map offers={offers} city={CITY} activeOffer={activeOffer}/>
+              </section>;
+
             </div>
           </div>
         </div>

@@ -3,7 +3,11 @@ import {Offers} from '../types/offers';
 export const offers: Offers = [
   {
     id: 1,
-    src: "img/apartment-01.jpg",
+    src: "/img/apartment-01.jpg",
+    coordinates: {
+      latitude:52.3909553943508,
+      longitude:4.85309666406198,
+    },
     price: 80,
     premium: true,
     favorite: false,
@@ -12,7 +16,7 @@ export const offers: Offers = [
     type: "Room",
     numberOfRooms: 3,
     numberOfAdults: 3,
-    city: `New York`,
+    city: `Amsterdam`,
     inside: [
       `Wi-Fi`,
       `Washing machine`,
@@ -38,12 +42,23 @@ export const offers: Offers = [
         rating: 4,
         date: new Date(2019, 3, 19),
         description:`A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      },
+      {
+        name: `Max`,
+        avatar: `/img/avatar-max.jpg`,
+        rating: 4,
+        date: new Date(2019, 3, 19),
+        description:`A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       }
     ]
   },
   {
     id: 2,
-    src: "img/apartment-02.jpg",
+    src: "/img/apartment-02.jpg",
+    coordinates: {
+      latitude:52.369553943508,
+      longitude:4.85309666406198,
+    },
     price: 803,
     premium: true,
     favorite: false,
@@ -52,7 +67,7 @@ export const offers: Offers = [
     type: "Apartment",
     numberOfRooms: 3,
     numberOfAdults: 3,
-    city: `New York`,
+    city: `Amsterdam`,
     inside: [
       `Wi-Fi`,
       `Washing machine`,
@@ -83,7 +98,11 @@ export const offers: Offers = [
   },
   {
     id: 3,
-    src: "img/apartment-03.jpg",
+    src: "/img/apartment-03.jpg",
+    coordinates: {
+      latitude:52.3909553943508,
+      longitude:4.929309666406198,
+    },
     price: 840,
     premium: true,
     favorite: false,
@@ -123,7 +142,11 @@ export const offers: Offers = [
   },
   {
     id: 4,
-    src: "img/apartment-02.jpg",
+    src: "/img/apartment-02.jpg",
+    coordinates: {
+      latitude:52.3809553943508,
+      longitude:4.939309666406198,
+    },
     price: 10,
     premium: false,
     favorite: false,
@@ -132,7 +155,7 @@ export const offers: Offers = [
     type: "House",
     numberOfRooms: 3,
     numberOfAdults: 3,
-    city: `York`,
+    city: `Amsterdam`,
     inside: [
       `Wi-Fi`,
       `Washing machine`,
