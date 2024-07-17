@@ -1,44 +1,48 @@
-type Rating = 0 | 1 | 2 | 3 | 4 | 5;
-type Host = {
+// noinspection JSUnnecessarySemicolon
+
+import {CitiesName} from '../const';
+
+export type User = {
   name: string;
-  avatar: string;
-  statusPRO: boolean;
-  description: string;
+  avatarUrl: string;
+  isPro: boolean;
 }
-type TypePlace = `Apartment` | `Room` | `House` | `Hotel`;
+export type TypePlace = `Apartment` | `Room` | `House` | `Hotel`;
 
 export interface Review {
   name: string;
   avatar: string
-  rating: Rating;
+  rating: number;
   date: Date;
   description: string;
 }
 
 export type Reviews = Review[];
 
-export type Сoordinates = {
+export type Coordinates = {
   latitude: number;
   longitude: number;
+  zoom: number;
 };
 
 
 export interface Offer {
   id: number | string;
-  src: string;
-  coordinates: Сoordinates;
+  src: string[];
+  description: string | null;
+  coordinates: Coordinates;
   price: number;
   premium: boolean;
   favorite: boolean;
-  rating: Rating;
+  rating: number;
   placeName: string;
   type: TypePlace;
-  numberOfRooms: number;
-  numberOfAdults: number;
-  city: string;
-  inside: string[];
-  host: Host;
-  reviews: Reviews;
-};
+  numberOfRooms: number| null;
+  numberOfAdults: number| null;
+  city: CitiesName;
+  inside: string[] | null;
+  host: User | null;
+  reviews: Reviews | null;
+}
 
 export type  Offers = Offer[];

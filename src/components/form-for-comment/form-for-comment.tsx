@@ -1,26 +1,39 @@
-import {Fragment, useState} from 'react';
+import {Fragment} from 'react';
 import React from 'react';
 
-export function FormForComment():JSX.Element {
-  const [comment, setComment] = useState<string>(``);
-  const [rating, setRating] = useState<number>(0);
+
+type PropsFormForCommentProps = {
+  onReviewTextChange: (value: string) => void,
+  onRatingChange: (value: number) => void,
+  isCommentFormButtonDisabled: boolean,
+  onSubmitCommentForm: VoidFunction,
+  reviewText: string,
+}
+
+
+export function FormForComment({onReviewTextChange, onRatingChange, onSubmitCommentForm, isCommentFormButtonDisabled,  reviewText}: PropsFormForCommentProps):JSX.Element {
+
   const handleCommentChange = (event:React.ChangeEvent<HTMLTextAreaElement>) =>{
     const newComment = event.target.value.toString();
-    setComment(newComment);
+    onReviewTextChange(newComment);
   }
 
   const handleRatingChange = (event:React.ChangeEvent<HTMLInputElement>) =>{
     const newRating = parseInt(event.target.value);
-    setRating(newRating);
+    onRatingChange(newRating);
+  }
+  const handleSubmit = (event:React.FormEvent<HTMLFormElement>) =>{
+    event.preventDefault();
+    onSubmitCommentForm();
   }
   return (
-    <form className="reviews__form form" action="" method="post">
+    <form className="reviews__form form" action="" method="post" onSubmit={(evt)=>{handleSubmit(evt)}}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
         {[5, 4, 3, 2, 1].map((value, index) => (
-          <React.Fragment >
+          <Fragment key={index} >
             <input
               className="form__rating-input visually-hidden"
               name="rating"
@@ -38,17 +51,15 @@ export function FormForComment():JSX.Element {
                 <use xlinkHref="#icon-star" />
               </svg>
             </label>
-          </React.Fragment>
+          </Fragment>
         ))}
-
-
       </div>
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        defaultValue={comment}
+        value={reviewText}
         onChange={handleCommentChange}
       />
       <div className="reviews__button-wrapper">
@@ -61,7 +72,7 @@ export function FormForComment():JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
+          disabled={isCommentFormButtonDisabled}
         >
           Submit
         </button>

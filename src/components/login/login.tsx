@@ -1,28 +1,51 @@
-function Login(): JSX.Element {
+import React from 'react';
+import {ThunkAppDispatch} from '../../types/action';
+import {loginAction} from '../../store/api-action';
+import {connect, ConnectedProps} from 'react-redux';
+import {AuthData} from '../../types/auth-data';
+import Header from '../header/header';
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  async onLogin(authData: AuthData) {
+    try {
+      const response = await dispatch(loginAction(authData));
+      // Обработка успешного ответа
+      console.log('Login successful:', response);
+    } catch (error) {
+      // Обработка ошибки
+      console.error('Login failed:', error);
+    }
+  },
+});
+
+const connector = connect(null, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function Login(props: PropsFromRedux): JSX.Element {
+  const {onLogin} = props;
+  const handleSubmit = async (event:React.FormEvent<HTMLFormElement>) =>{
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form); // Собираем данные формы
+    const login = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    try {
+      await onLogin({ login, password });
+      console.log('Login successful');
+    } catch (error) {
+      console.error('Login failed', error);
+    }
+  }
+
+
   return (
     <div className="page page--gray page--login">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img
-                  className="header__logo"
-                  src="img/logo.svg"
-                  alt="6 cities logo"
-                  width={81}
-                  height={41}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header/>
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form className="login__form form" action="#" method="post" onSubmit={(evt)=>{handleSubmit(evt)}}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
@@ -43,7 +66,7 @@ function Login(): JSX.Element {
                   required
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit">
+              <button className="login__submit form__submit button" type="submit" >
                 Sign in
               </button>
             </form>
@@ -61,4 +84,5 @@ function Login(): JSX.Element {
   );
 }
 
-export default Login;
+export {Login};
+export default connector(Login);

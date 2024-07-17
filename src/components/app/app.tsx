@@ -1,18 +1,36 @@
-import {Routes, BrowserRouter} from 'react-router-dom';
+import {unstable_HistoryRouter as HistoryRouter} from 'react-router-dom';
 import {AppRouter} from '../providers/app-router';
-import {Offers} from '../../types/offers';
+import {connect, ConnectedProps} from 'react-redux';
+import {Spinner} from '../spinner/spinner';
+import {TRootState} from '../../store/reducer';
+import browserHistory from '../../browser-history';
 
-type AppScreenProps = {
-  offers: Offers;
-}
 
-function App({offers}: AppScreenProps): JSX.Element {
+const mapStateToProps = ({offers}: TRootState) => {
+  const {isDataLoaded} = offers;
+  return {
+    isDataLoaded,
+  }
+};
+
+const connector = connect(mapStateToProps)
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+function App({isDataLoaded}: PropsFromRedux): JSX.Element {
+
+  if (!isDataLoaded) {
+    return(
+      <Spinner/>
+    );
+  }
   return (
-    <BrowserRouter>
-      <AppRouter offers={offers}/>
-    </BrowserRouter>
+    <HistoryRouter history={browserHistory}>
+      <AppRouter />
+    </HistoryRouter>
 
   )
 }
 
-export default App;
+export {App};
+export default connector(App);

@@ -1,27 +1,26 @@
-import {Review} from '../../types/offers';
 import {ratingToWidth} from '../../service/utils';
 import dayjs from 'dayjs';
+import {ReviewApi} from '../../types/offers-api';
 
 
 type ReviewType = {
-  review: Review;
-  key: number | string;
+  review: ReviewApi;
 }
 
-export function ReviewItem({review, key}: ReviewType):JSX.Element {1
+export function ReviewItem({review}: ReviewType):JSX.Element {
   return (
-    <li className="reviews__item" key={key}>
+    <li className="reviews__item">
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img
             className="reviews__avatar user__avatar"
-            src={review.avatar}
+            src={review.user.avatarUrl}
             width={54}
             height={54}
             alt="Reviews avatar"
           />
         </div>
-        <span className="reviews__user-name">{review.name}</span>
+        <span className="reviews__user-name">{review.user.name}</span>
       </div>
       <div className="reviews__info">
         <div className="reviews__rating rating">
@@ -31,9 +30,7 @@ export function ReviewItem({review, key}: ReviewType):JSX.Element {1
           </div>
         </div>
         <p className="reviews__text">
-          A quiet cozy and picturesque that hides behind a a river by
-          the unique lightness of Amsterdam. The building is green and
-          from 18th century.
+          {review.comment}
         </p>
         <time className="reviews__time" dateTime={dayjs(review.date).format('YYYY-MM-DD')}>
           {dayjs(review.date).format('MMMM YYYY')}

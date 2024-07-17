@@ -13,7 +13,7 @@ type CardCityType = {
 
 function CardCity({item, cardClassName, onPointerOverCard, onPointerLeaveCard}:CardCityType): JSX.Element {
 
-  const {placeName, price, favorite, rating, type, premium, src} = item;
+  const {placeName, price, rating, type, premium, src} = item;
 
 
   const handlePointerOver = () => {
@@ -25,7 +25,7 @@ function CardCity({item, cardClassName, onPointerOverCard, onPointerLeaveCard}:C
 
 
   return (
-    <article className={`${cardClassName} place-card`}
+    <article className={`${cardClassName} place-card `}
              onPointerOver={handlePointerOver}
              onPointerLeave={handlePointerLeave}>
       {premium && (
@@ -37,7 +37,7 @@ function CardCity({item, cardClassName, onPointerOverCard, onPointerLeaveCard}:C
         <NavLink to={`/offer/${item.id}`}  >
           <img
             className="place-card__image"
-            src={src}
+            src={src[0]}
             width={260}
             height={200}
             alt="Place image"

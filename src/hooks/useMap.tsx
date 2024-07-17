@@ -1,21 +1,21 @@
 import { MutableRefObject, useEffect, useState} from 'react';
 import {Map, TileLayer} from 'leaflet';
-import {Offer} from '../types/offers';
-import {City} from '../types/city';
+import {CITIES, CitiesName} from '../const';
 
-function useMap(mapRef: MutableRefObject<HTMLElement | null> , city: City): Map | null {
+function useMap(mapRef: MutableRefObject<HTMLElement | null> , city: CitiesName): Map | null {
   const [map, setMap] = useState<Map | null>(null);
+  const currentCity = CITIES.filter((item) => item.title === city);
+
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(`useEffect`);
     if (mapRef.current !== null && map === null) {
       const instance = new Map(mapRef.current, {
         center: {
-          lat: city.latitude,
-          lng: city.longitude,
+          lat: currentCity[0].latitude,
+          lng: currentCity[0].longitude,
         },
-        zoom: 12,
+        zoom: currentCity[0].zoom,
       });
+
       const layer = new TileLayer(
         'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         {

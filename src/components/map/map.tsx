@@ -1,54 +1,70 @@
-import {Offer, Offers} from '../../types/offers';
+import {Offer} from '../../types/offers';
 import {useRef, useEffect} from 'react';
 import useMap from '../../hooks/useMap';
 import 'leaflet/dist/leaflet.css';
+import leaflet, { Marker, LayerGroup} from 'leaflet';
+import {connect, ConnectedProps} from 'react-redux';
+import {CITIES} from '../../const';
+import {currentCustomIcon, defaultCustomIcon} from './map-const';
+import {TRootState} from '../../store/reducer';
 
-import { Marker, Icon} from 'leaflet';
-import {City} from '../../types/city';
+const markersGroup: LayerGroup = leaflet.layerGroup([]);
 
 type MapProps = {
-  offers: Offers;
-  city: City
   activeOffer: Offer | null;
 }
 
-const defaultCustomIcon = new Icon({
-  iconUrl: `/img/pin.svg`,
-  iconSize: [27, 39],
-  iconAnchor: [13.5, 39],
-});
+const mapStateToProps = ({offers}: TRootState) => {
+  const {city, offersList} = offers;
+  return {
+    currentCity: city,
+    offersList,
+  }
+};
 
-const currentCustomIcon = new Icon({
-  iconUrl: `/img/pin-active.svg`,
-  iconSize: [27, 39],
-  iconAnchor: [13.5, 39],
-});
+const connector = connect(mapStateToProps);
 
-function Map({ offers, city,  activeOffer }: MapProps): JSX.Element {
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MapProps;
+
+
+function Map({ offersList, currentCity,  activeOffer }: ConnectedComponentProps): JSX.Element {
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, currentCity);
+
+  const dataAboutCurrentCity = CITIES.filter((item)=> (item.title === currentCity))[0]
 
   useEffect(() => {
-
     if (map) {
-      offers.forEach((offer) => {
-        const marker = new Marker({
+      const markers: Marker[] = [];
+      markersGroup?.clearLayers();
+
+      offersList.forEach((offer, i) => {
+        markers.push(
+          new Marker({
           lat: offer.coordinates.latitude,
           lng: offer.coordinates.longitude,
-        });
+        }))
 
-        marker.setIcon(activeOffer?.id === offer.id
+        markers[i].setIcon(activeOffer?.id === offer.id
           ? currentCustomIcon
           : defaultCustomIcon)
-          .addTo(map);
+        markersGroup.addLayer(markers[i]);
+
       });
+
+      markersGroup.addTo(map);
+      map.setView([dataAboutCurrentCity.latitude, dataAboutCurrentCity.longitude], dataAboutCurrentCity.zoom);
     }
-  }, [map, offers, activeOffer]);
+
+  }, [map, offersList, activeOffer]);
 
 
   return <div style={{height: '100%'}} ref={mapRef}></div>;
 }
 
-export default Map;
+
+export {Map};
+export default connector(Map);
 
